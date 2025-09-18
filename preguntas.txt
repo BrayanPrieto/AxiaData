@@ -1,0 +1,14 @@
+1. ¿Cuál ha sido la evolución del monto promedio aprobado y de la tasa de interés aplicada a lo largo de los años, y qué tendencias se observan en el apetito de riesgo de la entidad?
+ * Permite entender cambios en políticas de riesgo y ajustar estrategias de colocación de crédito.
+
+2. ¿Qué perfil de clientes (ingresos, empleo, estado de residencia, historial FICO) concentra los préstamos de mayor monto y mejor desempeño en pagos?
+ * Identifica segmentos rentables y de bajo riesgo para campañas de originación.
+
+3. ¿Cómo varía la tasa de morosidad y cancelación de créditos según el propósito declarado (consolidación de deudas, negocio, vivienda, educación, etc.)?
+ * Facilita decisiones sobre qué tipos de préstamos priorizar o limitar.
+
+4. ¿Qué relación existe entre el nivel de endeudamiento (DTI, cuentas abiertas, saldos de tarjetas) y la probabilidad de incumplimiento o atraso en pagos?
+ * Permite refinar los modelos de riesgo crediticio y ajustar políticas de aprobación.
+
+5. ¿Qué estados o regiones muestran mayores montos aprobados y mejores indicadores de recuperación, y dónde se concentran los riesgos más altos?
+ * Apoya decisiones geográficas de expansión, ajuste de tasas por riesgo regional y focalización de cartera.
