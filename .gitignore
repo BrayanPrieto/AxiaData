@@ -1,0 +1,27 @@
+# Ignorar entornos virtuales en cualquier carpeta
+**/venv/
+**/.venv/
+**/env/
+**/.env/
+**/ENV/
+**/.ENV/
+
+# Archivos de entorno de Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Archivos de configuración locales
+.env
+.env.*
+!.env.example
+
+# Carpetas de VSCode y cachés
+.vscode/
+.idea/
+.cache/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
