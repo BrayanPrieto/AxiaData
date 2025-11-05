@@ -11,19 +11,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema prestamos_norm
+-- Schema bdPrestamosNormalizada
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema prestamos_norm
+-- Schema bdPrestamosNormalizada
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `prestamos_norm` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `prestamos_norm` ;
+CREATE SCHEMA IF NOT EXISTS `bdPrestamosNormalizada` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `bdPrestamosNormalizada` ;
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`borrower`
+-- Table `bdPrestamosNormalizada`.`borrower`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`borrower` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`borrower` (
   `borrower_id` BIGINT NOT NULL AUTO_INCREMENT,
   `external_borrower_key` VARCHAR(64) NULL DEFAULT NULL,
   PRIMARY KEY (`borrower_id`),
@@ -35,9 +35,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_verification_status`
+-- Table `bdPrestamosNormalizada`.`dim_verification_status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_verification_status` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_verification_status` (
   `verification_status_id` INT NOT NULL AUTO_INCREMENT,
   `verification_status_code` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`verification_status_id`),
@@ -49,9 +49,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_purpose`
+-- Table `bdPrestamosNormalizada`.`dim_purpose`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_purpose` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_purpose` (
   `purpose_id` INT NOT NULL AUTO_INCREMENT,
   `purpose_code` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`purpose_id`),
@@ -63,9 +63,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_application_type`
+-- Table `bdPrestamosNormalizada`.`dim_application_type`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_application_type` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_application_type` (
   `application_type_id` INT NOT NULL AUTO_INCREMENT,
   `application_type_code` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`application_type_id`),
@@ -77,9 +77,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_policy_code`
+-- Table `bdPrestamosNormalizada`.`dim_policy_code`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_policy_code` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_policy_code` (
   `policy_code_id` INT NOT NULL AUTO_INCREMENT,
   `policy_code` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`policy_code_id`),
@@ -91,9 +91,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_disbursement_method`
+-- Table `bdPrestamosNormalizada`.`dim_disbursement_method`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_disbursement_method` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_disbursement_method` (
   `disbursement_method_id` INT NOT NULL AUTO_INCREMENT,
   `disbursement_method_code` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`disbursement_method_id`),
@@ -105,9 +105,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_initial_list_status`
+-- Table `bdPrestamosNormalizada`.`dim_initial_list_status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_initial_list_status` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_initial_list_status` (
   `initial_list_status_id` INT NOT NULL AUTO_INCREMENT,
   `initial_list_status_code` VARCHAR(8) NOT NULL,
   PRIMARY KEY (`initial_list_status_id`),
@@ -119,9 +119,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`listing`
+-- Table `bdPrestamosNormalizada`.`listing`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`listing` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`listing` (
   `listing_id` BIGINT NOT NULL AUTO_INCREMENT,
   `initial_list_status_id` INT NULL DEFAULT NULL,
   `url` VARCHAR(512) NULL DEFAULT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`listing` (
   INDEX `initial_list_status_id` (`initial_list_status_id` ASC) VISIBLE,
   CONSTRAINT `listing_ibfk_1`
     FOREIGN KEY (`initial_list_status_id`)
-    REFERENCES `prestamos_norm`.`dim_initial_list_status` (`initial_list_status_id`)
+    REFERENCES `bdPrestamosNormalizada`.`dim_initial_list_status` (`initial_list_status_id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB
@@ -139,9 +139,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`application`
+-- Table `bdPrestamosNormalizada`.`application`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`application` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`application` (
   `application_id` BIGINT NOT NULL AUTO_INCREMENT,
   `borrower_id` BIGINT NOT NULL,
   `source_system_code` CHAR(1) NOT NULL,
@@ -166,25 +166,25 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`application` (
   INDEX `idx_app_ext` (`external_application_key` ASC) VISIBLE,
   CONSTRAINT `application_ibfk_1`
     FOREIGN KEY (`borrower_id`)
-    REFERENCES `prestamos_norm`.`borrower` (`borrower_id`),
+    REFERENCES `bdPrestamosNormalizada`.`borrower` (`borrower_id`),
   CONSTRAINT `application_ibfk_2`
     FOREIGN KEY (`verification_status_id`)
-    REFERENCES `prestamos_norm`.`dim_verification_status` (`verification_status_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_verification_status` (`verification_status_id`),
   CONSTRAINT `application_ibfk_3`
     FOREIGN KEY (`purpose_id`)
-    REFERENCES `prestamos_norm`.`dim_purpose` (`purpose_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_purpose` (`purpose_id`),
   CONSTRAINT `application_ibfk_4`
     FOREIGN KEY (`application_type_id`)
-    REFERENCES `prestamos_norm`.`dim_application_type` (`application_type_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_application_type` (`application_type_id`),
   CONSTRAINT `application_ibfk_5`
     FOREIGN KEY (`policy_code_id`)
-    REFERENCES `prestamos_norm`.`dim_policy_code` (`policy_code_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_policy_code` (`policy_code_id`),
   CONSTRAINT `application_ibfk_6`
     FOREIGN KEY (`disbursement_method_id`)
-    REFERENCES `prestamos_norm`.`dim_disbursement_method` (`disbursement_method_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_disbursement_method` (`disbursement_method_id`),
   CONSTRAINT `application_ibfk_7`
     FOREIGN KEY (`listing_id`)
-    REFERENCES `prestamos_norm`.`listing` (`listing_id`))
+    REFERENCES `bdPrestamosNormalizada`.`listing` (`listing_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 526652
 DEFAULT CHARACTER SET = utf8mb4
@@ -193,9 +193,9 @@ COMMENT = 'Solicitud normalizada (clave externa_application_key del CSV)';
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`applicant_financials_snapshot`
+-- Table `bdPrestamosNormalizada`.`applicant_financials_snapshot`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`applicant_financials_snapshot` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`applicant_financials_snapshot` (
   `application_id` BIGINT NOT NULL,
   `annual_inc` DECIMAL(14,2) NULL DEFAULT NULL,
   `annual_inc_joint` DECIMAL(14,2) NULL DEFAULT NULL,
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`applicant_financials_snapshot` (
   UNIQUE INDEX `uq_app_fin` (`application_id` ASC) VISIBLE,
   CONSTRAINT `applicant_financials_snapshot_ibfk_1`
     FOREIGN KEY (`application_id`)
-    REFERENCES `prestamos_norm`.`application` (`application_id`)
+    REFERENCES `bdPrestamosNormalizada`.`application` (`application_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -213,9 +213,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_state`
+-- Table `bdPrestamosNormalizada`.`dim_state`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_state` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_state` (
   `state_id` INT NOT NULL AUTO_INCREMENT,
   `state_code` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`state_id`),
@@ -227,9 +227,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_zip3`
+-- Table `bdPrestamosNormalizada`.`dim_zip3`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_zip3` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_zip3` (
   `zip3_id` INT NOT NULL AUTO_INCREMENT,
   `zip3` CHAR(3) NOT NULL,
   PRIMARY KEY (`zip3_id`),
@@ -241,9 +241,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`application_address`
+-- Table `bdPrestamosNormalizada`.`application_address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`application_address` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`application_address` (
   `application_id` BIGINT NOT NULL,
   `state_id` INT NULL DEFAULT NULL,
   `zip3_id` INT NULL DEFAULT NULL,
@@ -253,14 +253,14 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`application_address` (
   INDEX `zip3_id` (`zip3_id` ASC) VISIBLE,
   CONSTRAINT `application_address_ibfk_1`
     FOREIGN KEY (`application_id`)
-    REFERENCES `prestamos_norm`.`application` (`application_id`)
+    REFERENCES `bdPrestamosNormalizada`.`application` (`application_id`)
     ON DELETE CASCADE,
   CONSTRAINT `application_address_ibfk_2`
     FOREIGN KEY (`state_id`)
-    REFERENCES `prestamos_norm`.`dim_state` (`state_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_state` (`state_id`),
   CONSTRAINT `application_address_ibfk_3`
     FOREIGN KEY (`zip3_id`)
-    REFERENCES `prestamos_norm`.`dim_zip3` (`zip3_id`))
+    REFERENCES `bdPrestamosNormalizada`.`dim_zip3` (`zip3_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci
@@ -268,9 +268,9 @@ COMMENT = 'Ubicación del solicitante (state, zip3)';
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`credit_history_snapshot`
+-- Table `bdPrestamosNormalizada`.`credit_history_snapshot`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`credit_history_snapshot` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`credit_history_snapshot` (
   `application_id` BIGINT NOT NULL,
   `earliest_cr_line` DATE NULL DEFAULT NULL,
   `last_credit_pull_d` DATE NULL DEFAULT NULL,
@@ -288,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`credit_history_snapshot` (
   UNIQUE INDEX `uq_app_ch` (`application_id` ASC) VISIBLE,
   CONSTRAINT `credit_history_snapshot_ibfk_1`
     FOREIGN KEY (`application_id`)
-    REFERENCES `prestamos_norm`.`application` (`application_id`)
+    REFERENCES `bdPrestamosNormalizada`.`application` (`application_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -297,9 +297,9 @@ COMMENT = 'Foto del historial crediticio (revolving, inquiries, etc.)';
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_emp_length`
+-- Table `bdPrestamosNormalizada`.`dim_emp_length`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_emp_length` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_emp_length` (
   `emp_length_id` INT NOT NULL AUTO_INCREMENT,
   `years` TINYINT NULL DEFAULT NULL,
   `original_text` VARCHAR(32) NOT NULL,
@@ -312,9 +312,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_emp_title`
+-- Table `bdPrestamosNormalizada`.`dim_emp_title`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_emp_title` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_emp_title` (
   `emp_title_id` INT NOT NULL AUTO_INCREMENT,
   `emp_title` VARCHAR(512) NOT NULL,
   PRIMARY KEY (`emp_title_id`),
@@ -326,9 +326,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_grade`
+-- Table `bdPrestamosNormalizada`.`dim_grade`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_grade` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_grade` (
   `grade_id` INT NOT NULL AUTO_INCREMENT,
   `grade_code` CHAR(1) NOT NULL,
   PRIMARY KEY (`grade_id`),
@@ -340,9 +340,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_hardship_loan_status`
+-- Table `bdPrestamosNormalizada`.`dim_hardship_loan_status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_hardship_loan_status` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_hardship_loan_status` (
   `hardship_loan_status_id` INT NOT NULL AUTO_INCREMENT,
   `hardship_loan_status_code` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`hardship_loan_status_id`),
@@ -354,9 +354,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_hardship_status`
+-- Table `bdPrestamosNormalizada`.`dim_hardship_status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_hardship_status` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_hardship_status` (
   `hardship_status_id` INT NOT NULL AUTO_INCREMENT,
   `hardship_status_code` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`hardship_status_id`),
@@ -368,9 +368,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_hardship_type`
+-- Table `bdPrestamosNormalizada`.`dim_hardship_type`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_hardship_type` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_hardship_type` (
   `hardship_type_id` INT NOT NULL AUTO_INCREMENT,
   `hardship_type_code` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`hardship_type_id`),
@@ -382,9 +382,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_home_ownership`
+-- Table `bdPrestamosNormalizada`.`dim_home_ownership`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_home_ownership` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_home_ownership` (
   `home_ownership_id` INT NOT NULL AUTO_INCREMENT,
   `home_ownership_code` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`home_ownership_id`),
@@ -396,9 +396,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_loan_status`
+-- Table `bdPrestamosNormalizada`.`dim_loan_status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_loan_status` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_loan_status` (
   `loan_status_id` INT NOT NULL AUTO_INCREMENT,
   `loan_status_code` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`loan_status_id`),
@@ -410,9 +410,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_settlement_status`
+-- Table `bdPrestamosNormalizada`.`dim_settlement_status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_settlement_status` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_settlement_status` (
   `settlement_status_id` INT NOT NULL AUTO_INCREMENT,
   `settlement_status_code` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`settlement_status_id`),
@@ -424,9 +424,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_sub_grade`
+-- Table `bdPrestamosNormalizada`.`dim_sub_grade`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_sub_grade` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_sub_grade` (
   `sub_grade_id` INT NOT NULL AUTO_INCREMENT,
   `sub_grade_code` CHAR(2) NOT NULL,
   `grade_id` INT NOT NULL,
@@ -435,7 +435,7 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_sub_grade` (
   INDEX `fk_sub_grade_grade` (`grade_id` ASC) VISIBLE,
   CONSTRAINT `fk_sub_grade_grade`
     FOREIGN KEY (`grade_id`)
-    REFERENCES `prestamos_norm`.`dim_grade` (`grade_id`)
+    REFERENCES `bdPrestamosNormalizada`.`dim_grade` (`grade_id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB
@@ -445,9 +445,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`dim_term`
+-- Table `bdPrestamosNormalizada`.`dim_term`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`dim_term` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`dim_term` (
   `term_id` INT NOT NULL AUTO_INCREMENT,
   `term_months` TINYINT NOT NULL,
   PRIMARY KEY (`term_id`),
@@ -459,9 +459,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`employment`
+-- Table `bdPrestamosNormalizada`.`employment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`employment` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`employment` (
   `application_id` BIGINT NOT NULL,
   `emp_title_id` INT NULL DEFAULT NULL,
   `emp_length_id` INT NULL DEFAULT NULL,
@@ -473,17 +473,17 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`employment` (
   INDEX `home_ownership_id` (`home_ownership_id` ASC) VISIBLE,
   CONSTRAINT `employment_ibfk_1`
     FOREIGN KEY (`application_id`)
-    REFERENCES `prestamos_norm`.`application` (`application_id`)
+    REFERENCES `bdPrestamosNormalizada`.`application` (`application_id`)
     ON DELETE CASCADE,
   CONSTRAINT `employment_ibfk_2`
     FOREIGN KEY (`emp_title_id`)
-    REFERENCES `prestamos_norm`.`dim_emp_title` (`emp_title_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_emp_title` (`emp_title_id`),
   CONSTRAINT `employment_ibfk_3`
     FOREIGN KEY (`emp_length_id`)
-    REFERENCES `prestamos_norm`.`dim_emp_length` (`emp_length_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_emp_length` (`emp_length_id`),
   CONSTRAINT `employment_ibfk_4`
     FOREIGN KEY (`home_ownership_id`)
-    REFERENCES `prestamos_norm`.`dim_home_ownership` (`home_ownership_id`))
+    REFERENCES `bdPrestamosNormalizada`.`dim_home_ownership` (`home_ownership_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci
@@ -491,9 +491,9 @@ COMMENT = 'Empleo declarado del solicitante';
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`loan`
+-- Table `bdPrestamosNormalizada`.`loan`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`loan` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`loan` (
   `loan_id` BIGINT NOT NULL,
   `application_id` BIGINT NOT NULL,
   `decision_id` BIGINT NULL DEFAULT NULL,
@@ -510,19 +510,19 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`loan` (
   INDEX `idx_loan_term` (`term_id` ASC) VISIBLE,
   CONSTRAINT `loan_ibfk_1`
     FOREIGN KEY (`application_id`)
-    REFERENCES `prestamos_norm`.`application` (`application_id`),
+    REFERENCES `bdPrestamosNormalizada`.`application` (`application_id`),
   CONSTRAINT `loan_ibfk_2`
     FOREIGN KEY (`loan_status_id`)
-    REFERENCES `prestamos_norm`.`dim_loan_status` (`loan_status_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_loan_status` (`loan_status_id`),
   CONSTRAINT `loan_ibfk_3`
     FOREIGN KEY (`sub_grade_id`)
-    REFERENCES `prestamos_norm`.`dim_sub_grade` (`sub_grade_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_sub_grade` (`sub_grade_id`),
   CONSTRAINT `loan_ibfk_4`
     FOREIGN KEY (`grade_id`)
-    REFERENCES `prestamos_norm`.`dim_grade` (`grade_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_grade` (`grade_id`),
   CONSTRAINT `loan_ibfk_5`
     FOREIGN KEY (`term_id`)
-    REFERENCES `prestamos_norm`.`dim_term` (`term_id`))
+    REFERENCES `bdPrestamosNormalizada`.`dim_term` (`term_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci
@@ -530,9 +530,9 @@ COMMENT = 'Préstamo: relaciona application + status + grade/term';
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`hardship_case`
+-- Table `bdPrestamosNormalizada`.`hardship_case`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`hardship_case` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`hardship_case` (
   `loan_id` BIGINT NOT NULL,
   `hardship_type_id` INT NULL DEFAULT NULL,
   `hardship_status_id` INT NULL DEFAULT NULL,
@@ -550,26 +550,26 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`hardship_case` (
   INDEX `hardship_loan_status_id` (`hardship_loan_status_id` ASC) VISIBLE,
   CONSTRAINT `hardship_case_ibfk_1`
     FOREIGN KEY (`loan_id`)
-    REFERENCES `prestamos_norm`.`loan` (`loan_id`)
+    REFERENCES `bdPrestamosNormalizada`.`loan` (`loan_id`)
     ON DELETE CASCADE,
   CONSTRAINT `hardship_case_ibfk_2`
     FOREIGN KEY (`hardship_type_id`)
-    REFERENCES `prestamos_norm`.`dim_hardship_type` (`hardship_type_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_hardship_type` (`hardship_type_id`),
   CONSTRAINT `hardship_case_ibfk_3`
     FOREIGN KEY (`hardship_status_id`)
-    REFERENCES `prestamos_norm`.`dim_hardship_status` (`hardship_status_id`),
+    REFERENCES `bdPrestamosNormalizada`.`dim_hardship_status` (`hardship_status_id`),
   CONSTRAINT `hardship_case_ibfk_4`
     FOREIGN KEY (`hardship_loan_status_id`)
-    REFERENCES `prestamos_norm`.`dim_hardship_loan_status` (`hardship_loan_status_id`))
+    REFERENCES `bdPrestamosNormalizada`.`dim_hardship_loan_status` (`hardship_loan_status_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`loan_terms`
+-- Table `bdPrestamosNormalizada`.`loan_terms`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`loan_terms` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`loan_terms` (
   `loan_id` BIGINT NOT NULL,
   `requested_amount` INT NULL DEFAULT NULL,
   `funded_amount` INT NULL DEFAULT NULL,
@@ -582,7 +582,7 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`loan_terms` (
   INDEX `idx_terms_amounts` (`requested_amount` ASC, `funded_amount` ASC) VISIBLE,
   CONSTRAINT `loan_terms_ibfk_1`
     FOREIGN KEY (`loan_id`)
-    REFERENCES `prestamos_norm`.`loan` (`loan_id`)
+    REFERENCES `bdPrestamosNormalizada`.`loan` (`loan_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -591,9 +591,9 @@ COMMENT = 'Condiciones financieras del préstamo (tasa, montos, cuota)';
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`payment_status_snapshot`
+-- Table `bdPrestamosNormalizada`.`payment_status_snapshot`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`payment_status_snapshot` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`payment_status_snapshot` (
   `loan_id` BIGINT NOT NULL,
   `last_pymnt_d` DATE NULL DEFAULT NULL,
   `next_pymnt_d` DATE NULL DEFAULT NULL,
@@ -614,7 +614,7 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`payment_status_snapshot` (
   INDEX `idx_pay_next_dt` (`next_pymnt_d` ASC) VISIBLE,
   CONSTRAINT `payment_status_snapshot_ibfk_1`
     FOREIGN KEY (`loan_id`)
-    REFERENCES `prestamos_norm`.`loan` (`loan_id`)
+    REFERENCES `bdPrestamosNormalizada`.`loan` (`loan_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -623,9 +623,9 @@ COMMENT = 'Estado de pago a la fecha de la exportación';
 
 
 -- -----------------------------------------------------
--- Table `prestamos_norm`.`settlement_case`
+-- Table `bdPrestamosNormalizada`.`settlement_case`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prestamos_norm`.`settlement_case` (
+CREATE TABLE IF NOT EXISTS `bdPrestamosNormalizada`.`settlement_case` (
   `loan_id` BIGINT NOT NULL,
   `settlement_status_id` INT NULL DEFAULT NULL,
   `debt_settlement_flag` TINYINT NULL DEFAULT NULL,
@@ -638,11 +638,11 @@ CREATE TABLE IF NOT EXISTS `prestamos_norm`.`settlement_case` (
   INDEX `settlement_status_id` (`settlement_status_id` ASC) VISIBLE,
   CONSTRAINT `settlement_case_ibfk_1`
     FOREIGN KEY (`loan_id`)
-    REFERENCES `prestamos_norm`.`loan` (`loan_id`)
+    REFERENCES `bdPrestamosNormalizada`.`loan` (`loan_id`)
     ON DELETE CASCADE,
   CONSTRAINT `settlement_case_ibfk_2`
     FOREIGN KEY (`settlement_status_id`)
-    REFERENCES `prestamos_norm`.`dim_settlement_status` (`settlement_status_id`))
+    REFERENCES `bdPrestamosNormalizada`.`dim_settlement_status` (`settlement_status_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
