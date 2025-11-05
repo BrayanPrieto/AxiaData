@@ -189,6 +189,7 @@ def load_fact_originations(conn: MySQLConnection, src_db: str, dw_db: str) -> No
     run_sql(conn, "SET FOREIGN_KEY_CHECKS = 1;")
 
     log('-> Insertando todos los registros desde el origen...')
+    
     sql = f"""
     INSERT INTO {dw_db}.fact_originations (
       loan_id, application_id, application_date_id, decision_date_id,
@@ -199,25 +200,39 @@ def load_fact_originations(conn: MySQLConnection, src_db: str, dw_db: str) -> No
       inq_last_6mths, delinq_2yrs, mths_since_last_delinq, mths_since_recent_inq, pub_rec, total_acc, open_acc, revol_bal, revol_util
     )
     SELECT
-      l.loan_id,
-      a.application_id,
-      CAST(DATE_FORMAT(a.application_date, '%Y%m%d') AS UNSIGNED),
-      CAST(DATE_FORMAT(l.decision_date, '%Y%m%d') AS UNSIGNED),
-      dp.purpose_key,
-      dat.application_type_key,
-      dvs.verification_status_key,
-      dpc.policy_code_key,
-      ddm.disbursement_method_key,
-      dg.grade_key,
-      dsg.sub_grade_key,
-      dt.term_key,
-      dho.home_ownership_key,
-      del.employment_length_key,
-      dl.location_key,
-      lt.requested_amount, lt.funded_amount, lt.funded_amount_inv, lt.installment, lt.int_rate,
-      af.annual_inc, af.annual_inc_joint, af.dti, af.dti_joint,
-      ch.inq_last_6mths, ch.delinq_2yrs, ch.mths_since_last_delinq, ch.mths_since_recent_inq,
-      ch.pub_rec, ch.total_acc, ch.open_acc, ch.revol_bal, ch.revol_util
+      l.loan_id, -- La columna del GROUP BY
+      ANY_VALUE(a.application_id),
+      ANY_VALUE(CAST(DATE_FORMAT(a.application_date, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(CAST(DATE_FORMAT(l.decision_date, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(dp.purpose_key),
+      ANY_VALUE(dat.application_type_key),
+      ANY_VALUE(dvs.verification_status_key),
+      ANY_VALUE(dpc.policy_code_key),
+      ANY_VALUE(ddm.disbursement_method_key),
+      ANY_VALUE(dg.grade_key),
+      ANY_VALUE(dsg.sub_grade_key),
+      ANY_VALUE(dt.term_key),
+      ANY_VALUE(dho.home_ownership_key),
+      ANY_VALUE(del.employment_length_key),
+      ANY_VALUE(dl.location_key),
+      ANY_VALUE(lt.requested_amount), 
+      ANY_VALUE(lt.funded_amount), 
+      ANY_VALUE(lt.funded_amount_inv), 
+      ANY_VALUE(lt.installment), 
+      ANY_VALUE(lt.int_rate),
+      ANY_VALUE(af.annual_inc), 
+      ANY_VALUE(af.annual_inc_joint), 
+      ANY_VALUE(af.dti), 
+      ANY_VALUE(af.dti_joint),
+      ANY_VALUE(ch.inq_last_6mths), 
+      ANY_VALUE(ch.delinq_2yrs), 
+      ANY_VALUE(ch.mths_since_last_delinq), 
+      ANY_VALUE(ch.mths_since_recent_inq),
+      ANY_VALUE(ch.pub_rec), 
+      ANY_VALUE(ch.total_acc), 
+      ANY_VALUE(ch.open_acc), 
+      ANY_VALUE(ch.revol_bal), 
+      ANY_VALUE(ch.revol_util)
     
     FROM (
         -- Subconsulta 1: Filtra 'loan'
@@ -261,12 +276,12 @@ def load_fact_originations(conn: MySQLConnection, src_db: str, dw_db: str) -> No
     LEFT JOIN {dw_db}.dim_employment_length del ON del.original_text = sel.original_text
     LEFT JOIN {dw_db}.dim_location dl ON dl.state_code <=> s.state_code AND dl.zip3 <=> z.zip3
     
-    -- CORRECCIÓN: Añadido GROUP BY para prevenir duplicados (fan-out)
     GROUP BY l.loan_id;
     """
     run_sql(conn, sql)
     log('fact_originations cargada.')
 
+# --- FUNCIÓN CORREGIDA (Subconsultas para filtrar fechas) ---
 def load_fact_performance_snapshot(conn: MySQLConnection, src_db: str, dw_db: str) -> None:
     """Carga fact_performance_snapshot usando TRUNCATE + INSERT."""
     log('Cargando fact_performance_snapshot (FULL)...')
@@ -277,6 +292,7 @@ def load_fact_performance_snapshot(conn: MySQLConnection, src_db: str, dw_db: st
     run_sql(conn, "SET FOREIGN_KEY_CHECKS = 1;")
 
     log('-> Insertando todos los registros desde el origen...')
+    # CORRECCIÓN: Se envuelve cada columna en ANY_VALUE()
     sql = f"""
     INSERT INTO {dw_db}.fact_performance_snapshot (
       loan_id,
@@ -289,19 +305,36 @@ def load_fact_performance_snapshot(conn: MySQLConnection, src_db: str, dw_db: st
       deferral_term, hardship_length, hardship_dpd
     )
     SELECT
-      l.loan_id,
-      dls.loan_status_key,
-      CAST(DATE_FORMAT(NULLIF(ps.last_pymnt_d, '0000-00-00'), '%Y%m%d') AS UNSIGNED),
-      CAST(DATE_FORMAT(NULLIF(ps.next_pymnt_d, '0000-00-00'), '%Y%m%d') AS UNSIGNED),
-      ps.last_pymnt_amnt, ps.total_pymnt, ps.total_pymnt_inv, ps.total_rec_prncp, ps.total_rec_int, ps.total_rec_late_fee,
-      ps.recoveries, ps.collection_recovery_fee, ps.out_prncp, ps.out_prncp_inv, ps.pymnt_plan,
-      dss.settlement_status_key, sc.debt_settlement_flag, sc.settlement_amount, sc.settlement_percentage,
-      CAST(DATE_FORMAT(NULLIF(sc.settlement_date, '0000-00-00'), '%Y%m%d') AS UNSIGNED),
-      dht.hardship_type_key, dhs.hardship_status_key, dhl.hardship_loan_status_key, hc.hardship_amount,
-      CAST(DATE_FORMAT(NULLIF(hc.hardship_start_date, '0000-00-00'), '%Y%m%d') AS UNSIGNED),
-      CAST(DATE_FORMAT(NULLIF(hc.hardship_end_date, '0000-00-00'), '%Y%m%d') AS UNSIGNED),
-      CAST(DATE_FORMAT(NULLIF(hc.payment_plan_start_date, '0000-00-00'), '%Y%m%d') AS UNSIGNED),
-      hc.deferral_term, hc.hardship_length, hc.hardship_dpd
+      l.loan_id, -- La columna del GROUP BY
+      ANY_VALUE(dls.loan_status_key),
+      ANY_VALUE(CAST(DATE_FORMAT(ps.last_pymnt_d, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(CAST(DATE_FORMAT(ps.next_pymnt_d, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(ps.last_pymnt_amnt), 
+      ANY_VALUE(ps.total_pymnt), 
+      ANY_VALUE(ps.total_pymnt_inv), 
+      ANY_VALUE(ps.total_rec_prncp), 
+      ANY_VALUE(ps.total_rec_int), 
+      ANY_VALUE(ps.total_rec_late_fee),
+      ANY_VALUE(ps.recoveries), 
+      ANY_VALUE(ps.collection_recovery_fee), 
+      ANY_VALUE(ps.out_prncp), 
+      ANY_VALUE(ps.out_prncp_inv), 
+      ANY_VALUE(ps.pymnt_plan),
+      ANY_VALUE(dss.settlement_status_key), 
+      ANY_VALUE(sc.debt_settlement_flag), 
+      ANY_VALUE(sc.settlement_amount), 
+      ANY_VALUE(sc.settlement_percentage),
+      ANY_VALUE(CAST(DATE_FORMAT(sc.settlement_date, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(dht.hardship_type_key), 
+      ANY_VALUE(dhs.hardship_status_key), 
+      ANY_VALUE(dhl.hardship_loan_status_key), 
+      ANY_VALUE(hc.hardship_amount),
+      ANY_VALUE(CAST(DATE_FORMAT(hc.hardship_start_date, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(CAST(DATE_FORMAT(hc.hardship_end_date, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(CAST(DATE_FORMAT(hc.payment_plan_start_date, '%Y%m%d') AS UNSIGNED)),
+      ANY_VALUE(hc.deferral_term), 
+      ANY_VALUE(hc.hardship_length), 
+      ANY_VALUE(hc.hardship_dpd)
       
     FROM (
         -- Subconsulta: Filtra 'loan'
@@ -309,9 +342,26 @@ def load_fact_performance_snapshot(conn: MySQLConnection, src_db: str, dw_db: st
         WHERE decision_date > '0001-01-01' OR decision_date IS NULL
     ) l
     
-    LEFT JOIN {src_db}.payment_status_snapshot ps ON ps.loan_id = l.loan_id
-    LEFT JOIN {src_db}.settlement_case sc ON sc.loan_id = l.loan_id
-    LEFT JOIN {src_db}.hardship_case hc ON hc.loan_id = l.loan_id
+    -- CORRECCIÓN: Subconsultas en todos los LEFT JOIN que tienen fechas
+    LEFT JOIN (
+        SELECT * FROM {src_db}.payment_status_snapshot
+        WHERE (last_pymnt_d > '0001-01-01' OR last_pymnt_d IS NULL)
+          AND (next_pymnt_d > '0001-01-01' OR next_pymnt_d IS NULL)
+    ) ps ON ps.loan_id = l.loan_id
+    
+    LEFT JOIN (
+        SELECT * FROM {src_db}.settlement_case
+        WHERE (settlement_date > '0001-01-01' OR settlement_date IS NULL)
+    ) sc ON sc.loan_id = l.loan_id
+    
+    LEFT JOIN (
+        SELECT * FROM {src_db}.hardship_case
+        WHERE (hardship_start_date > '0001-01-01' OR hardship_start_date IS NULL)
+          AND (hardship_end_date > '0001-01-01' OR hardship_end_date IS NULL)
+          AND (payment_plan_start_date > '0001-01-01' OR payment_plan_start_date IS NULL)
+    ) hc ON hc.loan_id = l.loan_id
+    
+    -- El resto de los JOINS a dimensiones están bien
     LEFT JOIN {src_db}.dim_loan_status sls ON sls.loan_status_id = l.loan_status_id
     LEFT JOIN {src_db}.dim_settlement_status sss ON sss.settlement_status_id = sc.settlement_status_id
     LEFT JOIN {src_db}.dim_hardship_type sht ON sht.hardship_type_id = hc.hardship_type_id
@@ -323,7 +373,6 @@ def load_fact_performance_snapshot(conn: MySQLConnection, src_db: str, dw_db: st
     LEFT JOIN {dw_db}.dim_hardship_status dhs ON dhs.hardship_status_code = shs.hardship_status_code
     LEFT JOIN {dw_db}.dim_hardship_loan_status dhl ON dhl.hardship_loan_status_code = shl.hardship_loan_status_code
     
-    -- CORRECCIÓN: Añadido GROUP BY para prevenir duplicados (fan-out)
     GROUP BY l.loan_id;
     """
     run_sql(conn, sql)
