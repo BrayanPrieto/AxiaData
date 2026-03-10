@@ -1,0 +1,380 @@
+{
+  "q1": {
+    "series": [
+      {
+        "year": 2014,
+        "avg_funded": 16625.0,
+        "avg_rate": 9.54,
+        "high_risk_share": 0.0
+      },
+      {
+        "year": 2015,
+        "avg_funded": 15378.26,
+        "avg_rate": 12.62,
+        "high_risk_share": 0.2618
+      },
+      {
+        "year": 2016,
+        "avg_funded": 15756.19,
+        "avg_rate": 13.16,
+        "high_risk_share": 0.3125
+      },
+      {
+        "year": 2017,
+        "avg_funded": 15446.65,
+        "avg_rate": 13.1,
+        "high_risk_share": 0.3055
+      },
+      {
+        "year": 2018,
+        "avg_funded": 15494.05,
+        "avg_rate": 12.37,
+        "high_risk_share": 0.2006
+      },
+      {
+        "year": 2019,
+        "avg_funded": 14624.6,
+        "avg_rate": 12.29,
+        "high_risk_share": 0.2251
+      }
+    ],
+    "insight": "El monto promedio aprobado pasó de USD 16,625 en 2014 a USD 14,625 (-12.0%). Las tasas promedio cambiaron +28.8% y la proporción de colocaciones en grados D-G varió +22.5%, lo que refleja ajustes en la tolerancia al riesgo."
+  },
+  "q2": {
+    "segments": [
+      {
+        "income_bracket": ">150k",
+        "emp_length": "10+ years",
+        "state": "Texas",
+        "grade": "E",
+        "home": "Con hipoteca",
+        "avg_funded": 30510.58,
+        "avg_income": 266788.01,
+        "perf_index": 1.1804,
+        "loans": 26
+      },
+      {
+        "income_bracket": "120-150k",
+        "emp_length": "10+ years",
+        "state": "Nueva Jersey",
+        "grade": "E",
+        "home": "Con hipoteca",
+        "avg_funded": 29765.0,
+        "avg_income": 133738.73,
+        "perf_index": 1.31,
+        "loans": 15
+      },
+      {
+        "income_bracket": ">150k",
+        "emp_length": "10+ years",
+        "state": "Carolina del Sur",
+        "grade": "C",
+        "home": "Con hipoteca",
+        "avg_funded": 29730.26,
+        "avg_income": 227075.37,
+        "perf_index": 1.1663,
+        "loans": 19
+      },
+      {
+        "income_bracket": ">150k",
+        "emp_length": "8 years",
+        "state": "California",
+        "grade": "C",
+        "home": "Con hipoteca",
+        "avg_funded": 29527.88,
+        "avg_income": 223859.69,
+        "perf_index": 1.1707,
+        "loans": 26
+      },
+      {
+        "income_bracket": ">150k",
+        "emp_length": "10+ years",
+        "state": "California",
+        "grade": "E",
+        "home": "Con hipoteca",
+        "avg_funded": 29444.15,
+        "avg_income": 214637.82,
+        "perf_index": 1.2144,
+        "loans": 47
+      },
+      {
+        "income_bracket": "80-120k",
+        "emp_length": "10+ years",
+        "state": "Texas",
+        "grade": "F",
+        "home": "Con hipoteca",
+        "avg_funded": 28899.11,
+        "avg_income": 91382.14,
+        "perf_index": 1.3025,
+        "loans": 28
+      },
+      {
+        "income_bracket": ">150k",
+        "emp_length": "10+ years",
+        "state": "California",
+        "grade": "F",
+        "home": "Con hipoteca",
+        "avg_funded": 28841.25,
+        "avg_income": 222984.5,
+        "perf_index": 1.2721,
+        "loans": 20
+      },
+      {
+        "income_bracket": ">150k",
+        "emp_length": "1 year",
+        "state": "Nueva Jersey",
+        "grade": "B",
+        "home": "Con hipoteca",
+        "avg_funded": 28813.89,
+        "avg_income": 247947.11,
+        "perf_index": 1.0677,
+        "loans": 18
+      }
+    ],
+    "insight": "Los montos más altos (USD 30,511) se concentran en hogares Con hipoteca de Texas, con ingresos >150k y antigüedad laboral '10+ years'. Su índice de pago es 1.18, señalando un nicho rentable de grado E."
+  },
+  "q3": {
+    "purposes": [
+      {
+        "purpose": "debt_consolidation",
+        "delinquency_rate": 0.0093,
+        "chargeoff_rate": 0.1713,
+        "loans": 290239
+      },
+      {
+        "purpose": "credit_card",
+        "delinquency_rate": 0.0076,
+        "chargeoff_rate": 0.1303,
+        "loans": 119785
+      },
+      {
+        "purpose": "home_improvement",
+        "delinquency_rate": 0.009,
+        "chargeoff_rate": 0.1387,
+        "loans": 31063
+      },
+      {
+        "purpose": "other",
+        "delinquency_rate": 0.012,
+        "chargeoff_rate": 0.154,
+        "loans": 26317
+      },
+      {
+        "purpose": "major_purchase",
+        "delinquency_rate": 0.0125,
+        "chargeoff_rate": 0.1436,
+        "loans": 9874
+      },
+      {
+        "purpose": "medical",
+        "delinquency_rate": 0.0113,
+        "chargeoff_rate": 0.1603,
+        "loans": 5220
+      },
+      {
+        "purpose": "car",
+        "delinquency_rate": 0.01,
+        "chargeoff_rate": 0.1201,
+        "loans": 4488
+      },
+      {
+        "purpose": "small_business",
+        "delinquency_rate": 0.0192,
+        "chargeoff_rate": 0.2155,
+        "loans": 4329
+      },
+      {
+        "purpose": "moving",
+        "delinquency_rate": 0.0084,
+        "chargeoff_rate": 0.1906,
+        "loans": 2959
+      },
+      {
+        "purpose": "vacation",
+        "delinquency_rate": 0.005,
+        "chargeoff_rate": 0.1512,
+        "loans": 2817
+      }
+    ],
+    "insight": "'small_business' registra la mora más alta (1.9%), mientras que 'car' mantiene cancelaciones por debajo de 12.0%."
+  },
+  "q4": {
+    "buckets": [
+      {
+        "bucket": "0-5",
+        "avg_open_acc": 7.5,
+        "avg_revol_bal": 7.36,
+        "delinquency_rate": 0.1196
+      },
+      {
+        "bucket": "5-10",
+        "avg_open_acc": 9.45,
+        "avg_revol_bal": 12.66,
+        "delinquency_rate": 0.1249
+      },
+      {
+        "bucket": "10-15",
+        "avg_open_acc": 10.78,
+        "avg_revol_bal": 15.6,
+        "delinquency_rate": 0.1379
+      },
+      {
+        "bucket": "15-20",
+        "avg_open_acc": 11.93,
+        "avg_revol_bal": 17.65,
+        "delinquency_rate": 0.1583
+      },
+      {
+        "bucket": "20-25",
+        "avg_open_acc": 12.82,
+        "avg_revol_bal": 19.14,
+        "delinquency_rate": 0.1783
+      },
+      {
+        "bucket": "25-30",
+        "avg_open_acc": 13.58,
+        "avg_revol_bal": 20.63,
+        "delinquency_rate": 0.2005
+      },
+      {
+        "bucket": "30-35",
+        "avg_open_acc": 14.1,
+        "avg_revol_bal": 21.95,
+        "delinquency_rate": 0.2309
+      },
+      {
+        "bucket": "35-40",
+        "avg_open_acc": 14.02,
+        "avg_revol_bal": 22.32,
+        "delinquency_rate": 0.2445
+      },
+      {
+        "bucket": "40-45",
+        "avg_open_acc": 13.33,
+        "avg_revol_bal": 22.43,
+        "delinquency_rate": 0.0603
+      },
+      {
+        "bucket": "45-100",
+        "avg_open_acc": 13.21,
+        "avg_revol_bal": 22.38,
+        "delinquency_rate": 0.0883
+      }
+    ],
+    "insight": "La mora salta de 6.0% en el tramo 40-45 a 24.4% cuando la relación deuda-ingreso supera 35%, acompañado de saldos revolventes medios de USD 22k."
+  },
+  "q5": {
+    "states": [
+      {
+        "state": 0,
+        "funded_millions": 94.83,
+        "recovery_rate": 0.0234,
+        "default_rate": 0.2019,
+        "segment": "alto_riesgo"
+      },
+      {
+        "state": 3,
+        "funded_millions": 54.59,
+        "recovery_rate": 0.0252,
+        "default_rate": 0.2065,
+        "segment": "alto_riesgo"
+      },
+      {
+        "state": 4,
+        "funded_millions": 1066.34,
+        "recovery_rate": 0.0181,
+        "default_rate": 0.1689,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 10,
+        "funded_millions": 14.51,
+        "recovery_rate": 0.0271,
+        "default_rate": 0.2014,
+        "segment": "alto_riesgo"
+      },
+      {
+        "state": 13,
+        "funded_millions": 513.81,
+        "recovery_rate": 0.019,
+        "default_rate": 0.1771,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 14,
+        "funded_millions": 261.06,
+        "recovery_rate": 0.0137,
+        "default_rate": 0.1511,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 17,
+        "funded_millions": 316.38,
+        "recovery_rate": 0.0136,
+        "default_rate": 0.1465,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 21,
+        "funded_millions": 90.94,
+        "recovery_rate": 0.0236,
+        "default_rate": 0.1955,
+        "segment": "alto_riesgo"
+      },
+      {
+        "state": 32,
+        "funded_millions": 291.9,
+        "recovery_rate": 0.0168,
+        "default_rate": 0.1742,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 33,
+        "funded_millions": 612.89,
+        "recovery_rate": 0.0196,
+        "default_rate": 0.1836,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 36,
+        "funded_millions": 251.21,
+        "recovery_rate": 0.02,
+        "default_rate": 0.1755,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 37,
+        "funded_millions": 72.75,
+        "recovery_rate": 0.0216,
+        "default_rate": 0.2049,
+        "segment": "alto_riesgo"
+      },
+      {
+        "state": 39,
+        "funded_millions": 264.67,
+        "recovery_rate": 0.0182,
+        "default_rate": 0.1733,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 43,
+        "funded_millions": 665.84,
+        "recovery_rate": 0.0185,
+        "default_rate": 0.1668,
+        "segment": "alto_volumen"
+      },
+      {
+        "state": 46,
+        "funded_millions": 230.09,
+        "recovery_rate": 0.0192,
+        "default_rate": 0.166,
+        "segment": "alto_volumen"
+      }
+    ],
+    "insight": "17 combina el mayor retorno (recuperación 1.4%) con baja mora (14.6%), mientras que 3 concentra riesgos por encima de 20.6%."
+  },
+  "meta": {
+    "records": 499997,
+    "source_path": "C:\\proyectos\\AxiaData\\BDNormalizada\\TablasyDatos"
+  }
+}
