@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Riesgo Crediticio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-head">
+      <div>
+        <p class="eyebrow">AxiaData &middot; Data Risk Lab</p>
+        <h1>Tablero de Riesgo y Desempe&ntilde;o Crediticio</h1>
+      </div>
+      <nav class="hero-nav">
+        <a class="nav-link active" href="index.html">Dashboard</a>
+        <a class="nav-link" href="io-modelo.html">Modelo IO</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="glossary card">
+    <h2>Glosario express</h2>
+    <dl>
+      <div>
+        <dt>Relaci&oacute;n deuda/ingresos</dt>
+        <dd>Porcentaje del ingreso mensual que ya est&aacute; comprometido con otras deudas.</dd>
+      </div>
+      <div>
+        <dt>Pr&eacute;stamo en mora</dt>
+        <dd>Cuenta con atrasos o en proceso de incumplimiento.</dd>
+      </div>
+      <div>
+        <dt>Castigo de cartera</dt>
+        <dd>Cuando la entidad da por perdido un pr&eacute;stamo y lo elimina del balance.</dd>
+      </div>
+      <div>
+        <dt>&Iacute;ndice de pago</dt>
+        <dd>Total pagado / monto financiado. Valores &gt; 100% muestran clientes puntuales.</dd>
+      </div>
+      <div>
+        <dt>Recuperaci&oacute;n de cartera</dt>
+        <dd>Porcentaje recuperado despu&eacute;s de la mora frente al capital desembolsado.</dd>
+      </div>
+      <div>
+        <dt>Segmentos de riesgo alto (D-G)</dt>
+        <dd>Grados crediticios de mayor riesgo usados como indicador del nivel de riesgo cuando no hay puntaje de cr&eacute;dito.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <main class="grid">
+    <section class="card">
+      <p class="question-label">¿Cuál ha sido la evolución del monto aprobado, de la tasa aplicada y qué dice esto de la tolerancia al riesgo?</p>
+      <h2>1. Evoluci&oacute;n del monto aprobado, tasa aplicada y tolerancia al riesgo</h2>
+      <canvas id="chart-q1" height="320"></canvas>
+      <p class="analysis" id="analysis-q1"></p>
+    </section>
+
+    <section class="card">
+      <p class="question-label">¿Qué perfil de clientes concentra los pr&eacute;stamos de mayor monto y mejor pago?</p>
+      <h2>2. Perfil de clientes con mayores montos y mejor desempe&ntilde;o</h2>
+      <canvas id="chart-q2" height="320"></canvas>
+      <p class="analysis" id="analysis-q2"></p>
+    </section>
+
+    <section class="card">
+      <p class="question-label">¿C&oacute;mo var&iacute;a la mora y la cancelaci&oacute;n seg&uacute;n el prop&oacute;sito del cr&eacute;dito?</p>
+      <h2>3. Morosidad y cancelaciones seg&uacute;n el prop&oacute;sito</h2>
+      <canvas id="chart-q3" height="320"></canvas>
+      <p class="analysis" id="analysis-q3"></p>
+    </section>
+
+    <section class="card">
+      <p class="question-label">¿Qu&eacute; relaci&oacute;n existe entre endeudamiento (cuentas y tarjetas) y la probabilidad de incumplir?</p>
+      <h2>4. Endeudamiento vs probabilidad de mora</h2>
+      <canvas id="chart-q4" height="320"></canvas>
+      <p class="analysis" id="analysis-q4"></p>
+    </section>
+
+    <section class="card">
+      <p class="question-label">¿En qu&eacute; estados se concentran los mayores montos y d&oacute;nde est&aacute;n los mayores riesgos?</p>
+      <h2>5. Estados con mayor volumen y recuperaci&oacute;n</h2>
+      <canvas id="chart-q5" height="320"></canvas>
+      <p class="analysis" id="analysis-q5"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modelo de Investigación de Operaciones</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-head">
+      <div>
+        <p class="eyebrow">AxiaData &middot; Data Risk Lab</p>
+        <h1>Modelo de Investigación de Operaciones</h1>
+      </div>
+      <nav class="hero-nav">
+        <a class="nav-link" href="index.html">Dashboard</a>
+        <a class="nav-link active" href="io-modelo.html">Modelo IO</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <p class="question-label">Mapa del modelo de investigaci&oacute;n de operaciones</p>
+      <h2>Variables, restricciones y objetivo</h2>
+      <table class="info-table">
+        <thead>
+          <tr>
+            <th>Bloque</th>
+            <th>Detalle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Entradas</td>
+            <td>Montos aprobados, tasas, estados de cr&eacute;dito y perfiles de clientes provenientes de la BD normalizada (mismo origen que el dashboard).</td>
+          </tr>
+          <tr>
+            <td>Variables de decisi&oacute;n</td>
+            <td>Cu&aacute;nto capital asignar por segmento/prop&oacute;sito para maximizar retorno esperado respetando la tolerancia al riesgo.</td>
+          </tr>
+          <tr>
+            <td>Restricciones</td>
+            <td>Capacidad de cartera, l&iacute;mites por estado/regi&oacute;n, topes de mora aceptable y cupos por perfil.</td>
+          </tr>
+          <tr>
+            <td>Objetivo</td>
+            <td>Maximizar margen ajustado por riesgo (ingreso por intereses menos p&eacute;rdidas esperadas).</td>
+          </tr>
+          <tr>
+            <td>Validaciones</td>
+            <td>An&aacute;lisis de sensibilidad (PDF) y escenarios param&eacute;tricos (Excel) que comprueban la robustez frente a cambios.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <p class="question-label">Planteamiento</p>
+      <h2>¿Cu&aacute;l es el problema IO?</h2>
+      <p>
+        Distribuir el capital disponible entre prop&oacute;sitos, segmentos y regiones maximizando el margen esperado
+        sin superar la tolerancia al riesgo. Los indicadores del dashboard (tasas, mora, recuperaciones) sirven como
+        par&aacute;metros iniciales del modelo.
+      </p>
+      <div class="graphic-sample">
+        <div>
+          <h3>Entradas</h3>
+          <ul>
+            <li>Montos aprobados</li>
+            <li>Tasa promedio</li>
+            <li>Mora y recuperaci&oacute;n</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Decisiones</h3>
+          <ul>
+            <li>Capital por prop&oacute;sito</li>
+            <li>Capital por segmento</li>
+            <li>Capital por regi&oacute;n</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Restricciones</h3>
+          <ul>
+            <li>Presupuesto</li>
+            <li>L&iacute;mite de mora</li>
+            <li>Cupo regional</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <p class="question-label">Formulaci&oacute;n</p>
+      <h2>Modelo matem&aacute;tico</h2>
+      <p>
+        Se plantea una programaci&oacute;n lineal donde la variable <em>x<sub>s,p,r</sub></em> representa el monto asignado
+        al segmento <em>s</em>, prop&oacute;sito <em>p</em> y regi&oacute;n <em>r</em>. El objetivo maximiza
+        <em>&sum; (ingreso esperado - p&eacute;rdida esperada) · x</em>, sujeto a las restricciones de presupuesto,
+        capacidad por regi&oacute;n y techo de mora.
+      </p>
+      <div class="graphic-sample formula">
+        <div>
+          <strong>Max</strong> &sum;<sub>s,p,r</sub> <em>(margen<sub>s,p,r</sub>) · x<sub>s,p,r</sub></em>
+        </div>
+        <div>
+          <strong>s.a.</strong>
+          <ul>
+            <li>&sum; x<sub>s,p,r</sub> ≤ Capital disponible</li>
+            <li>&sum; x<sub>*,*,r</sub> ≤ Cupo regi&oacute;n r</li>
+            <li>Prob. mora ponderada ≤ l&iacute;mite</li>
+            <li>x<sub>s,p,r</sub> ≥ 0</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <p class="question-label">Interpretaci&oacute;n</p>
+      <h2>Lectura de resultados</h2>
+      <p>
+        La soluci&oacute;n indica cu&aacute;nto capital asignar a cada combinaci&oacute;n segmento/prop&oacute;sito/regi&oacute;n.
+        Comparando con la situaci&oacute;n actual se identifican focos de expansi&oacute;n o contenci&oacute;n. Los reportes de
+        sensibilidad muestran c&oacute;mo se mueven las recomendaciones si cambian las tasas o los topes de riesgo.
+      </p>
+      <div class="graphic-sample">
+        <div>
+          <h3>Output IO</h3>
+          <ul>
+            <li>Matriz de asignaci&oacute;n &oacute;ptima</li>
+            <li>Utilidad esperada</li>
+            <li>Mora proyectada</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Acciones</h3>
+          <ul>
+            <li>Incrementar cartera en segmentos verdes</li>
+            <li>Recalibrar tasas en segmentos rojos</li>
+            <li>Revisar pol&iacute;ticas regionales</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Soporte</h3>
+          <ul>
+            <li>Informe t&eacute;cnico</li>
+            <li>PDF de sensibilidad</li>
+            <li>Excel param&eacute;trico</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+
+</html>
